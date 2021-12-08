@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net462</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <ApplicationIcon>icons/default.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="HidApiAdapter" Version="1.0.5" />
+    <PackageReference Include="PeanutButter.TrayIcon" Version="2.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="icons\headset.ico" />
+    <EmbeddedResource Include="icons\default.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\0.ico" />
+    <EmbeddedResource Include="icons\0.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\10.ico" />
+    <EmbeddedResource Include="icons\10.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\100.ico" />
+    <EmbeddedResource Include="icons\100.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\25.ico" />
+    <EmbeddedResource Include="icons\25.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\50.ico" />
+    <EmbeddedResource Include="icons\50.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\75.ico" />
+    <EmbeddedResource Include="icons\75.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\90.ico" />
+    <EmbeddedResource Include="icons\90.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="icons\charging.ico" />
+    <EmbeddedResource Include="icons\charging.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

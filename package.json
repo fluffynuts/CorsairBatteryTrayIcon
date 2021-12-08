@@ -1,0 +1,25 @@
+{
+  "name": "CorsairBatteryTrayIcon",
+  "version": "1.0.0",
+  "description": "A fork of https://github.com/mx0c/Corsair-Headset-Battery-Overlay aimed at providing a simple systray\r battery status icon for Corsair wireless headphones.",
+  "main": "index.js",
+  "scripts": {
+      "test": "run-s \"zarro test-dotnet\"",
+      "build": "run-s \"zarro build\"",
+      "zarro": "zarro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluffynuts/CorsairBatteryTrayIcon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/fluffynuts/CorsairBatteryTrayIcon/issues"
+  },
+  "homepage": "https://github.com/fluffynuts/CorsairBatteryTrayIcon#readme",
+  "devDependencies": {
+    "zarro": "^1.95.0"
+  }
+}
