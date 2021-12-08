@@ -31,4 +31,5 @@ As for building with npm, above, but `npm test`
 [ ] support multiple devices via config file
 [ ] support device selection via the tray menu
 [ ] support persisting device selection
+[ ] add estimated remaining time to tooltip
 [ ] add an installer

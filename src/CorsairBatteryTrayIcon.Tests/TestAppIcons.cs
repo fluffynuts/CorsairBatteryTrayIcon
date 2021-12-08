@@ -72,6 +72,35 @@ public class TestAppIcons
             .To.Match(expected);
     }
 
+    [Test]
+    public void ShouldLoadTheDisconnectedIcon()
+    {
+        // Arrange
+        var expected = LoadIcon("Disconnected");
+        // Act
+        var sut = Create();
+        // Assert
+        Expect(sut.Disconnected)
+            .Not.To.Be.Null();
+        Expect(sut.Disconnected)
+            .To.Match(expected);
+    }
+
+    [Test]
+    public void ShouldLoadTheDefaultDisconnectedIcon()
+    {
+        // Arrange
+        using var tmpFolder = new AutoTempFolder();
+        var expected = LoadIcon("Disconnected");
+        // Act
+        var sut = Create(tmpFolder.Path);
+        // Assert
+        Expect(sut.Disconnected)
+            .Not.To.Be.Null();
+        Expect(sut.Disconnected)
+            .To.Match(expected);
+    }
+
     [TestCase(0, "0")]
     [TestCase(4, "0")]
     [TestCase(10, "10")]

@@ -50,6 +50,10 @@
     <EmbeddedResource Include="icons\charging.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Remove="icons\disconnected.ico" />
+    <EmbeddedResource Include="icons\disconnected.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

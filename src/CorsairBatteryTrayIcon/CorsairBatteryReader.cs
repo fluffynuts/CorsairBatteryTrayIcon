@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using HidApiAdapter;
 using System.Reflection;
@@ -69,6 +70,7 @@ class CorsairBatteryReader
             while (_backgroundScanningEnabled)
             {
                 var buffer = GetBatteryStatusViaHid();
+                TraceWrite(buffer);
                 if (buffer is null)
                 {
                     OnBatteryStatusUpdate?.Invoke(this, new DeviceNotFoundEventArgs());
@@ -81,6 +83,17 @@ class CorsairBatteryReader
                 }
             }
         });
+    }
+
+    private void TraceWrite(byte[]? buffer)
+    {
+        if (buffer is null)
+        {
+            Trace.WriteLine("retrieved buffer was null");
+            return;
+        }
+
+        Trace.WriteLine($"retrieved: [{string.Join(", ", buffer)}]");
     }
 
     public void StopBackgroundScanning()
@@ -153,12 +166,24 @@ class CorsairBatteryReader
                 batteryPercent -= MIC_UP_OFFSET;
             }
 
-            var isCharging = ChargingValues.Contains(data[4]);
+            var state = ChargeStates.Unknown;
+            switch (data[4])
+            {
+                case 0:
+                    state = ChargeStates.Disconnected;
+                    break;
+                case 4:
+                case 5:
+                    state = ChargeStates.Charging;
+                    break;
+                default:
+                    state = ChargeStates.Discharging;
+                    break;
+            }
+
             var args = new BatteryStatusEventArgs(
                 batteryPercent,
-                isCharging
-                    ? ChargeStates.Charging
-                    : ChargeStates.Discharging
+                state
             );
             var handlers = OnBatteryStatusUpdate;
             handlers?.Invoke(this, args);

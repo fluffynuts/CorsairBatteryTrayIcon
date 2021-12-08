@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using PeanutButter.TrayIcon;
@@ -39,17 +40,41 @@ static class Program
         AppIcons appIcons
     )
     {
-        if (args.ChargeState == ChargeStates.Unknown)
-        {
-            trayIcon.NotifyIcon.Text = "Device not found or recognised";
-            trayIcon.Icon = appIcons.Default;
-            return;
-        }
+        trayIcon.Icon = IconForEvent(args, appIcons);
+        trayIcon.NotifyIcon.Text = TextForEvent(args);
+    }
 
-        trayIcon.NotifyIcon.Text = $"{args.BatteryPercent} %";
-        trayIcon.Icon = args.ChargeState == ChargeStates.Discharging
-            ? appIcons.BatteryIconForPercent(args.BatteryPercent)
-            : appIcons.Charging;
+    private static string TextForEvent(BatteryStatusEventArgs args)
+    {
+        switch (args.ChargeState)
+        {
+            case ChargeStates.Charging:
+                return "Charging - unplug to check percent";
+            case ChargeStates.Discharging:
+                return $"Discharging - {args.BatteryPercent} %";
+            case ChargeStates.Disconnected:
+                return "Disconnected";
+            default:
+                return "Device not found or not recognised";
+        }
+    }
+
+    private static Icon IconForEvent(
+        BatteryStatusEventArgs args,
+        AppIcons appIcons
+    )
+    {
+        switch (args.ChargeState)
+        {
+            case ChargeStates.Charging:
+                return appIcons.Charging;
+            case ChargeStates.Discharging:
+                return appIcons.BatteryIconForPercent(args.BatteryPercent);
+            case ChargeStates.Disconnected:
+                return appIcons.Disconnected;
+            default:
+                return appIcons.Default;
+        }
     }
 
     private static string IconDir =>

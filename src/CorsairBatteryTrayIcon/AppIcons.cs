@@ -11,6 +11,8 @@ public class AppIcons
     public string IconDir { get; }
     public Icon Default { get; }
     public Icon Charging { get; }
+    public Icon Disconnected { get; set; }
+    
     private readonly BatteryIcon[] _batteryIcons;
 
     public AppIcons(string iconDir)
@@ -19,6 +21,7 @@ public class AppIcons
         IconDir = iconDir;
         Default = LoadIconByName("default");
         Charging = LoadIconByName("charging");
+        Disconnected = LoadIconByName("disconnected");
         _batteryIcons = LoadBatteryIcons();
     }
 

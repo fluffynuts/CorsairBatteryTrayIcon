@@ -5,6 +5,7 @@ namespace CorsairBatteryTrayIcon;
 public enum ChargeStates
 {
     Unknown,
+    Disconnected,
     Discharging,
     Charging
 }
