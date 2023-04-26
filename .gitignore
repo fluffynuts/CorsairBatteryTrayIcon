@@ -293,3 +293,5 @@ buildreports
 *.swo
 build-tools
 .vscode
+setup/*.exe
+setup/*.zip
