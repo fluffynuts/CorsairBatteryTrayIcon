@@ -4,6 +4,8 @@
     <TargetFramework>net462</TargetFramework>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
+    <Configurations>Release;Debug</Configurations>
+    <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

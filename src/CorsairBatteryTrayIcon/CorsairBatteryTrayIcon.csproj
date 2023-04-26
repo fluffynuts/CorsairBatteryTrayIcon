@@ -8,9 +8,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationIcon>icons/default.ico</ApplicationIcon>
+    <Configurations>Release;Debug</Configurations>
+    <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="HidApiAdapter" Version="1.0.5" />
+    <PackageReference Include="HidApiAdapter" Version="1.0.6" />
     <PackageReference Include="PeanutButter.TrayIcon" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +56,12 @@
     <EmbeddedResource Include="icons\disconnected.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Update="hidapi32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="hidapi64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

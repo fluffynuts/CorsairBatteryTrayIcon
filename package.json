@@ -6,7 +6,8 @@
   "scripts": {
       "test": "run-s \"zarro test-dotnet\"",
       "build": "run-s \"zarro build\"",
-      "zarro": "zarro"
+      "zarro": "cross-env DOTNET_CORE=1 BUILD_CONFIGURATION=Release zarro",
+      "release": "dotnet publish src/CorsairBatteryTrayIcon/CorsairBatteryTrayIcon.csproj --configuration Release --framework net462 --self-contained True --runtime win-x64 --output bin --verbosity Normal /property:PublishTrimmed=True /property:IncludeNativeLibrariesForSelfExtract=True /property:DebugType=None /property:DebugSymbols=False /property:EnableCompressionInSingleFile=True /property:TrimMode=partial"
   },
   "repository": {
     "type": "git",
