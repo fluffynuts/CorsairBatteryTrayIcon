@@ -4,7 +4,7 @@
 #define MyAppName "Corsair Battery Tray Icon"
 #define MyAppVersion "0.0.2"
 #define MyAppURL "https://github.com/fluffynuts/CorsairBatteryTrayIcon"
-#define MyAppExeName "CorsairBatteryTrayIcon-Setup.exe"
+#define MyAppExeName "CorsairBatteryTrayIcon.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -22,7 +22,7 @@ DisableProgramGroupPage=yes
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=.
-OutputBaseFilename=CorsairBatteryTrayIcon
+OutputBaseFilename=CorsairBatteryTrayIcon-Setup
 SetupIconFile=..\bin\icons\default.ico
 Compression=lzma
 SolidCompression=yes
@@ -33,6 +33,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "autostart"; Description: "Start with Windows"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
 Source: "..\bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
@@ -47,6 +48,7 @@ Source: "..\bin\PeanutButter.TrayIcon.dll"; DestDir: "{app}"; Flags: ignoreversi
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: autostart
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
