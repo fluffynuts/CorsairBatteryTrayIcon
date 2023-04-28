@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using HidApiAdapter;
@@ -14,9 +13,9 @@ class CorsairBatteryReader
     public EventHandler<BatteryStatusEventArgs>? OnBatteryStatusUpdate { get; set; }
 
     private const int MIC_UP_OFFSET = 128;
-    public const int VENDOR_ID = 0x1b1c;
+    private const int VENDOR_ID = 0x1b1c;
     public int ProductId = 0x0a14;
-    private byte[] _dataReq = { 0xC9, 0x64 };
+    private readonly byte[] _dataReq = { 0xC9, 0x64 };
 
     private int?[] LastValues { get; set; }
     private const int FilterLength = 25;
@@ -27,39 +26,6 @@ class CorsairBatteryReader
     public CorsairBatteryReader()
     {
         LastValues = new int?[FilterLength];
-    }
-
-    private int FilterValue(int value)
-    {
-        int sum = 0, i;
-
-        if (!LastValues.Contains(null))
-        {
-            // shift array left
-            var newArray = new int?[FilterLength];
-            Array.Copy(LastValues, 1, newArray, 0, LastValues.Length - 1);
-            LastValues = newArray;
-        }
-
-        for (i = 0; i < LastValues.Length; i++)
-        {
-            if (LastValues[i] == null)
-            {
-                LastValues[i] = value;
-                sum += value;
-                break;
-            }
-            else
-            {
-                var lastValueAtI = LastValues[i];
-                if (lastValueAtI is not null)
-                {
-                    sum += (int)lastValueAtI;
-                }
-            }
-        }
-
-        return sum / (i + 1);
     }
 
     public void StartBackgroundScanning()
@@ -115,20 +81,9 @@ class CorsairBatteryReader
     {
         var devices = HidDeviceManager.GetManager().SearchDevices(VENDOR_ID, ProductId);
 
-        foreach (var dev in devices)
-        {
-            if (dev.Path().Contains("col02"))
-            {
-                return dev;
-            }
-        }
-
-        if (devices.Count > 0)
-        {
-            return devices.FirstOrDefault();
-        }
-
-        return null;
+        return devices.FirstOrDefault(
+            dev => dev.Path().Contains("col02")
+        ) ?? devices.FirstOrDefault();
     }
 
     private byte[]? GetBatteryStatusViaHid()
@@ -142,9 +97,17 @@ class CorsairBatteryReader
         device.Connect();
 
         //get handle via reflection, because its a private field (oof)
-        var field = typeof(HidDevice).GetField("m_DevicePtr",
+        var fieldName = "m_DevicePtr";
+        var field = typeof(HidDevice).GetField(fieldName,
             BindingFlags.NonPublic | BindingFlags.Instance);
-        _devPtr = (IntPtr)field.GetValue(device);
+        if (field is null)
+        {
+            throw new InvalidOperationException(
+                $"Attempted to read private field {fieldName}, but field was not found"
+            );
+        }
+
+        _devPtr = (IntPtr) field.GetValue(device);
 
         var buffer = new byte[5];
         HidApi.hid_write(_devPtr, _dataReq, Convert.ToUInt32(_dataReq.Length));
@@ -153,8 +116,6 @@ class CorsairBatteryReader
         Thread.Sleep(250);
         return buffer;
     }
-
-    private static readonly HashSet<int> ChargingValues = new(new[] { 0, 4, 5 });
 
     private void HandleReport(byte[] data)
     {
@@ -166,20 +127,13 @@ class CorsairBatteryReader
                 batteryPercent -= MIC_UP_OFFSET;
             }
 
-            var state = ChargeStates.Unknown;
-            switch (data[4])
+            var state = data[4] switch
             {
-                case 0:
-                    state = ChargeStates.Disconnected;
-                    break;
-                case 4:
-                case 5:
-                    state = ChargeStates.Charging;
-                    break;
-                default:
-                    state = ChargeStates.Discharging;
-                    break;
-            }
+                0 => ChargeStates.Disconnected,
+                4 => ChargeStates.Charging,
+                5 => ChargeStates.Charging,
+                _ => ChargeStates.Discharging
+            };
 
             var args = new BatteryStatusEventArgs(
                 batteryPercent,
@@ -190,7 +144,7 @@ class CorsairBatteryReader
         }
         catch
         {
-            return;
+            // suppress
         }
     }
 }
