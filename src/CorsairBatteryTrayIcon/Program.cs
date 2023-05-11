@@ -17,6 +17,7 @@ static class Program
         var icons = new AppIcons(IconDir);
         var reader = new CorsairBatteryReader();
         var trayIcon = new TrayIcon(icons.Default);
+        trayIcon.AddMenuItem("&About", ShowAbout);
         trayIcon.AddMenuItem(
             "E&xit",
             () =>
@@ -42,6 +43,12 @@ static class Program
                 icons
             );
         Application.Run();
+    }
+
+    private static void ShowAbout()
+    {
+        _about ??= new About();
+        _about.ShowDialog();
     }
 
     private static void UpdateTrayIconWithBatteryStatus(
@@ -98,12 +105,13 @@ static class Program
             "icons"
         );
 
-    private static string? _iconDir;
+    private static string _iconDir;
 
     private static string AppDir =>
         _appDir ??= FindAppDir();
 
-    private static string? _appDir;
+    private static string _appDir;
+    private static Form _about;
 
     private static string FindAppDir()
     {

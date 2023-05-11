@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationIcon>icons/default.ico</ApplicationIcon>
     <Configurations>Release;Debug</Configurations>
-    <VersionPrefix>0.0.3</VersionPrefix>
+    <VersionPrefix>1.0.0</VersionPrefix>
     <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
@@ -64,6 +64,11 @@
     <None Update="hidapi64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
