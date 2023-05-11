@@ -28,7 +28,8 @@ public class BatteryStatusEventArgs : EventArgs
 public class DeviceNotFoundEventArgs : BatteryStatusEventArgs
 {
     public DeviceNotFoundEventArgs() : base(
-        0, ChargeStates.Unknown
+        0,
+        ChargeStates.Unknown
     )
     {
     }

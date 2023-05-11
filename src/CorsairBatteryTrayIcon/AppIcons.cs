@@ -11,21 +11,25 @@ public class AppIcons
     public string IconDir { get; }
     public Icon Default { get; }
     public Icon Charging { get; }
-    public Icon Disconnected { get; set; }
-    
+    public Icon Unknown { get; set; }
+
     private readonly BatteryIcon[] _batteryIcons;
 
-    public AppIcons(string iconDir)
+    public AppIcons(
+        string iconDir
+    )
     {
         ValidateIconDir(iconDir);
         IconDir = iconDir;
         Default = LoadIconByName("default");
         Charging = LoadIconByName("charging");
-        Disconnected = LoadIconByName("disconnected");
+        Unknown = LoadIconByName("unknown");
         _batteryIcons = LoadBatteryIcons();
     }
 
-    private void ValidateIconDir(string iconDir)
+    private void ValidateIconDir(
+        string iconDir
+    )
     {
         if (Directory.Exists(iconDir))
         {
@@ -61,7 +65,9 @@ public class AppIcons
             .ToArray();
     }
 
-    private bool FileNameIsNumeric(string? filePath)
+    private bool FileNameIsNumeric(
+        string? filePath
+    )
     {
         if (filePath is null)
         {
@@ -69,31 +75,55 @@ public class AppIcons
         }
 
         var noExtension = DetermineFileNameWithoutExtension(filePath);
-        return int.TryParse(noExtension, out _);
+        return int.TryParse(
+            noExtension,
+            out _
+        );
     }
 
-    private BatteryIcon GenerateBatteryIconFromResource(string resource)
+    private BatteryIcon GenerateBatteryIconFromResource(
+        string resource
+    )
     {
         var icon = LoadIconByName(resource);
-        return GenerateBatteryIcon(resource, icon);
+        return GenerateBatteryIcon(
+            resource,
+            icon
+        );
     }
 
-    private BatteryIcon GenerateBatteryIconFromLocalFile(string pathToIcon)
+    private BatteryIcon GenerateBatteryIconFromLocalFile(
+        string pathToIcon
+    )
     {
         var icon = LoadIconByPath(pathToIcon);
-        return GenerateBatteryIcon(pathToIcon, icon);
+        return GenerateBatteryIcon(
+            pathToIcon,
+            icon
+        );
     }
 
-    private BatteryIcon GenerateBatteryIcon(string name, Icon icon)
+    private BatteryIcon GenerateBatteryIcon(
+        string name,
+        Icon icon
+    )
     {
         var percentageString = DetermineFileNameWithoutExtension(name);
         var percent = int.Parse(percentageString);
-        return new BatteryIcon(icon, percent);
+        return new BatteryIcon(
+            icon,
+            percent
+        );
     }
 
-    private string DetermineFileNameWithoutExtension(string filePath)
+    private string DetermineFileNameWithoutExtension(
+        string filePath
+    )
     {
-        if (_fileNameCache.TryGetValue(filePath, out var cached))
+        if (_fileNameCache.TryGetValue(
+                filePath,
+                out var cached
+            ))
         {
             return cached;
         }
@@ -111,44 +141,59 @@ public class AppIcons
         return LoadIconByName("default");
     }
 
-    private Icon LoadIconByName(string name)
+    private Icon LoadIconByName(
+        string name
+    )
     {
         var fileName = $"{name}.ico";
-        var fullPath = Path.Combine(IconDir, fileName);
+        var fullPath = Path.Combine(
+            IconDir,
+            fileName
+        );
         return File.Exists(fullPath)
             ? LoadIconByPath(fullPath)
             : TryLoadResourceIcon(fileName);
     }
 
-    private static Icon LoadIconByPath(string fullPath)
+    private static Icon LoadIconByPath(
+        string fullPath
+    )
     {
-        using var stream = File.Open(fullPath, FileMode.Open);
+        using var stream = File.Open(
+            fullPath,
+            FileMode.Open
+        );
         return new Icon(
             stream
         );
     }
 
-    private static Icon TryLoadResourceIcon(string fullPath)
+    private static Icon TryLoadResourceIcon(
+        string fullPath
+    )
     {
         var icon = Path.GetFileName(fullPath);
         var asm = typeof(AppIcons).Assembly;
         var resourceName = asm.GetManifestResourceNames()
                 .FirstOrDefault(name => name.EndsWith(icon))
             ?? throw new InvalidOperationException(
-                $"'{icon}' not found in icons folder and no default embedded resource!");
+                $"'{icon}' not found in icons folder and no default embedded resource!"
+            );
         using var stream = asm.GetManifestResourceStream(resourceName)
             ?? throw new InvalidOperationException($"unable to load resource stream '{resourceName}");
         return new Icon(stream);
     }
 
-    public Icon BatteryIconForPercent(int batteryPercent)
+    public Icon BatteryIconForPercent(
+        int batteryPercent
+    )
     {
         if (batteryPercent < 0)
         {
             return _batteryIcons.LastOrDefault()?.Icon ?? Default;
         }
 
-        if (batteryPercent == _lastBatteryPercent && 
+        if (batteryPercent == _lastBatteryPercent &&
             _lastBatteryIcon is not null)
         {
             return _lastBatteryIcon;
@@ -169,7 +214,7 @@ public class AppIcons
         _lastBatteryIcon = match.icon.Icon;
         return _lastBatteryIcon;
     }
-    
+
     private object _iconLock = new object();
     private int _lastBatteryPercent = int.MinValue;
     private Icon? _lastBatteryIcon = null;

@@ -17,20 +17,30 @@ static class Program
         var icons = new AppIcons(IconDir);
         var reader = new CorsairBatteryReader();
         var trayIcon = new TrayIcon(icons.Default);
-        trayIcon.AddMenuItem("E&xit", () =>
-        {
-            reader.StopBackgroundScanning();
-            trayIcon.Hide();
-            Application.Exit();
-        });
+        trayIcon.AddMenuItem(
+            "E&xit",
+            () =>
+            {
+                reader.StopBackgroundScanning();
+                trayIcon.Hide();
+                Application.Exit();
+            }
+        );
         trayIcon.Show();
 
         // TODO: load config: supported devices & selected device
         // -> for now, hard-coded to the HS70 pro
         reader.ProductId = 0x0A4F;
         reader.StartBackgroundScanning();
-        reader.OnBatteryStatusUpdate += (_, args) =>
-            UpdateTrayIconWithBatteryStatus(args, trayIcon, icons);
+        reader.OnBatteryStatusUpdate += (
+                _,
+                args
+            ) =>
+            UpdateTrayIconWithBatteryStatus(
+                args,
+                trayIcon,
+                icons
+            );
         Application.Run();
     }
 
@@ -40,11 +50,16 @@ static class Program
         AppIcons appIcons
     )
     {
-        trayIcon.Icon = IconForEvent(args, appIcons);
+        trayIcon.Icon = IconForEvent(
+            args,
+            appIcons
+        );
         trayIcon.NotifyIcon.Text = TextForEvent(args);
     }
 
-    private static string TextForEvent(BatteryStatusEventArgs args)
+    private static string TextForEvent(
+        BatteryStatusEventArgs args
+    )
     {
         switch (args.ChargeState)
         {
@@ -71,14 +86,17 @@ static class Program
             case ChargeStates.Discharging:
                 return appIcons.BatteryIconForPercent(args.BatteryPercent);
             case ChargeStates.Disconnected:
-                return appIcons.Disconnected;
+                return appIcons.Unknown;
             default:
                 return appIcons.Default;
         }
     }
 
     private static string IconDir =>
-        _iconDir ??= Path.Combine(AppDir, "icons");
+        _iconDir ??= Path.Combine(
+            AppDir,
+            "icons"
+        );
 
     private static string? _iconDir;
 

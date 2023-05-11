@@ -31,27 +31,34 @@ class CorsairBatteryReader
     public void StartBackgroundScanning()
     {
         _backgroundScanningEnabled = true;
-        Task.Run(() =>
-        {
-            while (_backgroundScanningEnabled)
+        Task.Run(
+            () =>
             {
-                var buffer = GetBatteryStatusViaHid();
-                TraceWrite(buffer);
-                if (buffer is null)
+                while (_backgroundScanningEnabled)
                 {
-                    OnBatteryStatusUpdate?.Invoke(this, new DeviceNotFoundEventArgs());
-                    SleepWhilstScanning(1000);
-                }
-                else
-                {
-                    HandleReport(buffer);
-                    SleepWhilstScanning(5000);
+                    var buffer = GetBatteryStatusViaHid();
+                    TraceWrite(buffer);
+                    if (buffer is null)
+                    {
+                        OnBatteryStatusUpdate?.Invoke(
+                            this,
+                            new DeviceNotFoundEventArgs()
+                        );
+                        SleepWhilstScanning(1000);
+                    }
+                    else
+                    {
+                        HandleReport(buffer);
+                        SleepWhilstScanning(5000);
+                    }
                 }
             }
-        });
+        );
     }
 
-    private void TraceWrite(byte[]? buffer)
+    private void TraceWrite(
+        byte[]? buffer
+    )
     {
         if (buffer is null)
         {
@@ -67,7 +74,9 @@ class CorsairBatteryReader
         _backgroundScanningEnabled = false;
     }
 
-    private void SleepWhilstScanning(int ms)
+    private void SleepWhilstScanning(
+        int ms
+    )
     {
         var end = DateTime.Now.AddMilliseconds(ms);
         while (DateTime.Now < end && _backgroundScanningEnabled)
@@ -79,7 +88,10 @@ class CorsairBatteryReader
 
     private HidDevice? GetHidDevice()
     {
-        var devices = HidDeviceManager.GetManager().SearchDevices(VENDOR_ID, ProductId);
+        var devices = HidDeviceManager.GetManager().SearchDevices(
+            VENDOR_ID,
+            ProductId
+        );
 
         return devices.FirstOrDefault(
             dev => dev.Path().Contains("col02")
@@ -98,8 +110,10 @@ class CorsairBatteryReader
 
         //get handle via reflection, because its a private field (oof)
         var fieldName = "m_DevicePtr";
-        var field = typeof(HidDevice).GetField(fieldName,
-            BindingFlags.NonPublic | BindingFlags.Instance);
+        var field = typeof(HidDevice).GetField(
+            fieldName,
+            BindingFlags.NonPublic | BindingFlags.Instance
+        );
         if (field is null)
         {
             throw new InvalidOperationException(
@@ -110,14 +124,25 @@ class CorsairBatteryReader
         _devPtr = (IntPtr) field.GetValue(device);
 
         var buffer = new byte[5];
-        HidApi.hid_write(_devPtr, _dataReq, Convert.ToUInt32(_dataReq.Length));
-        HidApi.hid_read_timeout(_devPtr, buffer, Convert.ToUInt32(buffer.Length), 1000);
+        HidApi.hid_write(
+            _devPtr,
+            _dataReq,
+            Convert.ToUInt32(_dataReq.Length)
+        );
+        HidApi.hid_read_timeout(
+            _devPtr,
+            buffer,
+            Convert.ToUInt32(buffer.Length),
+            1000
+        );
         device.Disconnect();
         Thread.Sleep(250);
         return buffer;
     }
 
-    private void HandleReport(byte[] data)
+    private void HandleReport(
+        byte[] data
+    )
     {
         try
         {
@@ -140,7 +165,10 @@ class CorsairBatteryReader
                 state
             );
             var handlers = OnBatteryStatusUpdate;
-            handlers?.Invoke(this, args);
+            handlers?.Invoke(
+                this,
+                args
+            );
         }
         catch
         {

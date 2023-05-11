@@ -54,7 +54,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Remove="icons\disconnected.ico" />
-    <EmbeddedResource Include="icons\disconnected.ico">
+    <None Remove="icons\unknown.ico" />
+    <EmbeddedResource Include="icons\unknown.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Update="hidapi32.dll">

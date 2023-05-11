@@ -73,50 +73,98 @@ public class TestAppIcons
     }
 
     [Test]
-    public void ShouldLoadTheDisconnectedIcon()
+    public void ShouldLoadTheUnknownIcon()
     {
         // Arrange
-        var expected = LoadIcon("Disconnected");
+        var expected = LoadIcon("unknown");
         // Act
         var sut = Create();
         // Assert
-        Expect(sut.Disconnected)
+        Expect(sut.Unknown)
             .Not.To.Be.Null();
-        Expect(sut.Disconnected)
+        Expect(sut.Unknown)
             .To.Match(expected);
     }
 
     [Test]
-    public void ShouldLoadTheDefaultDisconnectedIcon()
+    public void ShouldLoadTheDefaultUnknownIcon()
     {
         // Arrange
         using var tmpFolder = new AutoTempFolder();
-        var expected = LoadIcon("Disconnected");
+        var expected = LoadIcon("Unknown");
         // Act
         var sut = Create(tmpFolder.Path);
         // Assert
-        Expect(sut.Disconnected)
+        Expect(sut.Unknown)
             .Not.To.Be.Null();
-        Expect(sut.Disconnected)
+        Expect(sut.Unknown)
             .To.Match(expected);
     }
 
-    [TestCase(0, "0")]
-    [TestCase(4, "0")]
-    [TestCase(10, "10")]
-    [TestCase(12, "10")]
-    [TestCase(25, "25")]
-    [TestCase(45, "50")]
-    [TestCase(50, "50")]
-    [TestCase(60, "50")]
-    [TestCase(75, "75")]
-    [TestCase(78, "75")]
-    [TestCase(90, "90")]
-    [TestCase(94, "90")]
-    [TestCase(95, "100")]
-    [TestCase(96, "100")]
-    [TestCase(100, "100")]
-    public void ShouldProvideClosest(int batteryPercent, string icon)
+    [TestCase(
+        0,
+        "0"
+    )]
+    [TestCase(
+        4,
+        "0"
+    )]
+    [TestCase(
+        10,
+        "10"
+    )]
+    [TestCase(
+        12,
+        "10"
+    )]
+    [TestCase(
+        25,
+        "25"
+    )]
+    [TestCase(
+        45,
+        "50"
+    )]
+    [TestCase(
+        50,
+        "50"
+    )]
+    [TestCase(
+        60,
+        "50"
+    )]
+    [TestCase(
+        75,
+        "75"
+    )]
+    [TestCase(
+        78,
+        "75"
+    )]
+    [TestCase(
+        90,
+        "90"
+    )]
+    [TestCase(
+        94,
+        "90"
+    )]
+    [TestCase(
+        95,
+        "100"
+    )]
+    [TestCase(
+        96,
+        "100"
+    )]
+    [TestCase(
+        100,
+        "100"
+    )]
+    public void ShouldProvideClosest(
+        int batteryPercent,
+        string icon
+    )
     {
         // Arrange
         var expected = LoadIcon(icon);
@@ -130,22 +178,70 @@ public class TestAppIcons
             .To.Match(expected);
     }
 
-    [TestCase(0, "0")]
-    [TestCase(4, "0")]
-    [TestCase(10, "10")]
-    [TestCase(12, "10")]
-    [TestCase(25, "25")]
-    [TestCase(45, "50")]
-    [TestCase(50, "50")]
-    [TestCase(60, "50")]
-    [TestCase(75, "75")]
-    [TestCase(78, "75")]
-    [TestCase(90, "90")]
-    [TestCase(94, "90")]
-    [TestCase(95, "100")]
-    [TestCase(96, "100")]
-    [TestCase(100, "100")]
-    public void ShouldProvideClosestDefaultBatteryIcon(int batteryPercent, string icon)
+    [TestCase(
+        0,
+        "0"
+    )]
+    [TestCase(
+        4,
+        "0"
+    )]
+    [TestCase(
+        10,
+        "10"
+    )]
+    [TestCase(
+        12,
+        "10"
+    )]
+    [TestCase(
+        25,
+        "25"
+    )]
+    [TestCase(
+        45,
+        "50"
+    )]
+    [TestCase(
+        50,
+        "50"
+    )]
+    [TestCase(
+        60,
+        "50"
+    )]
+    [TestCase(
+        75,
+        "75"
+    )]
+    [TestCase(
+        78,
+        "75"
+    )]
+    [TestCase(
+        90,
+        "90"
+    )]
+    [TestCase(
+        94,
+        "90"
+    )]
+    [TestCase(
+        95,
+        "100"
+    )]
+    [TestCase(
+        96,
+        "100"
+    )]
+    [TestCase(
+        100,
+        "100"
+    )]
+    public void ShouldProvideClosestDefaultBatteryIcon(
+        int batteryPercent,
+        string icon
+    )
     {
         // Arrange
         using var tmpFolder = new AutoTempFolder();
@@ -160,9 +256,18 @@ public class TestAppIcons
             .To.Match(expected);
     }
 
-    [TestCase(-1, "0")]
-    [TestCase(101, "100")]
-    public void ShouldProvideEdgeCaseIcons(int batteryPercent, string icon)
+    [TestCase(
+        -1,
+        "0"
+    )]
+    [TestCase(
+        101,
+        "100"
+    )]
+    public void ShouldProvideEdgeCaseIcons(
+        int batteryPercent,
+        string icon
+    )
     {
         // Arrange
         var expected = LoadIcon(icon);
@@ -183,15 +288,27 @@ public class TestAppIcons
         using var tmpDir = new AutoTempFolder();
         var sut = Create(tmpDir.Path);
         // Act
-        var result = sut.BatteryIconForPercent(GetRandomInt(0, 100));
+        var result = sut.BatteryIconForPercent(
+            GetRandomInt(
+                0,
+                100
+            )
+        );
         // Assert
-        
     }
 
-    private static Icon LoadIcon(string name)
+    private static Icon LoadIcon(
+        string name
+    )
     {
-        var iconPath = Path.Combine(_iconDir, $"{name}.ico");
-        using var fs = File.Open(iconPath, FileMode.Open);
+        var iconPath = Path.Combine(
+            IconDir,
+            $"{name}.ico"
+        );
+        using var fs = File.Open(
+            iconPath,
+            FileMode.Open
+        );
         return new Icon(fs);
     }
 
@@ -199,12 +316,15 @@ public class TestAppIcons
         string iconFolder = null
     )
     {
-        return new(iconFolder ?? _iconDir);
+        return new(iconFolder ?? IconDir);
     }
 
-    private static string _iconDir => Path.Combine(_appDir, "icons");
+    private static string IconDir => Path.Combine(
+        AppDir,
+        "icons"
+    );
 
-    private static string _appDir => Path.GetDirectoryName(
+    private static string AppDir => Path.GetDirectoryName(
         new Uri(
             typeof(AppIcons).Assembly.Location
         ).LocalPath
@@ -218,41 +338,49 @@ public static class IconMatchers
         Icon expected
     )
     {
-        return to.AddMatcher(actual =>
-        {
-            var dimensionsMatch =
-                actual.Height == expected.Height &&
-                actual.Width == expected.Width;
-            var pixelsMatch = true;
-            if (dimensionsMatch)
+        return to.AddMatcher(
+            actual =>
             {
-                using var actualBmp = actual.ToBitmap();
-                using var expectedBmp = expected.ToBitmap();
-                for (var x = 0; x < actualBmp.Width; x++)
+                var dimensionsMatch =
+                    actual.Height == expected.Height &&
+                    actual.Width == expected.Width;
+                var pixelsMatch = true;
+                if (dimensionsMatch)
                 {
-                    for (var y = 0; y < actualBmp.Height; y++)
+                    using var actualBmp = actual.ToBitmap();
+                    using var expectedBmp = expected.ToBitmap();
+                    for (var x = 0; x < actualBmp.Width; x++)
                     {
-                        if (actualBmp.GetPixel(x, y) != expectedBmp.GetPixel(x, y))
+                        for (var y = 0; y < actualBmp.Height; y++)
                         {
-                            pixelsMatch = false;
+                            if (actualBmp.GetPixel(
+                                    x,
+                                    y
+                                ) != expectedBmp.GetPixel(
+                                    x,
+                                    y
+                                ))
+                            {
+                                pixelsMatch = false;
+                                break;
+                            }
+                        }
+
+                        if (!pixelsMatch)
+                        {
                             break;
                         }
                     }
-
-                    if (!pixelsMatch)
-                    {
-                        break;
-                    }
                 }
-            }
 
-            var passed = dimensionsMatch && pixelsMatch;
-            return new MatcherResult(
-                passed,
-                () => dimensionsMatch
-                    ? "images are same size but don't match"
-                    : "images aren't even the same size"
-            );
-        });
+                var passed = dimensionsMatch && pixelsMatch;
+                return new MatcherResult(
+                    passed,
+                    () => dimensionsMatch
+                        ? "images are same size but don't match"
+                        : "images aren't even the same size"
+                );
+            }
+        );
     }
 }
