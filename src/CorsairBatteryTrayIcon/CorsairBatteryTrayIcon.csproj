@@ -9,7 +9,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <ApplicationIcon>icons/default.ico</ApplicationIcon>
     <Configurations>Release;Debug</Configurations>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.1</VersionPrefix>
     <Platforms>x86;x64;AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>

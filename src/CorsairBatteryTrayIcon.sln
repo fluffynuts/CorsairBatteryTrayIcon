@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairBatteryTrayIcon", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorsairBatteryTrayIcon.Tests", "CorsairBatteryTrayIcon.Tests\CorsairBatteryTrayIcon.Tests.csproj", "{38ECDEFD-9029-455E-8A37-394DFD2BBF66}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "setup", "setup", "{20C0A72E-E359-4F17-974C-7C8D0AFB267C}"
+	ProjectSection(SolutionItems) = preProject
+		..\setup\setup.iss = ..\setup\setup.iss
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x86 = Release|x86

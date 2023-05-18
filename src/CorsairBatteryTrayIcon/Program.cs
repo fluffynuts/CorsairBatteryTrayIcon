@@ -71,15 +71,18 @@ static class Program
         switch (args.ChargeState)
         {
             case ChargeStates.Charging:
-                return "Charging - unplug to check percent";
+                return $"{EVENT_PREFIX}Charging - unplug to check percent";
             case ChargeStates.Discharging:
-                return $"Discharging - {args.BatteryPercent} %";
+                return $"{EVENT_PREFIX}Discharging - {args.BatteryPercent} %";
             case ChargeStates.Disconnected:
-                return "Disconnected";
+                return $"{EVENT_PREFIX}Disconnected";
             default:
-                return "Device not found or not recognised";
+                return $"No {DEVICE_NAME} found or not recognised";
         }
     }
+    
+    private const string DEVICE_NAME = "Corsair headset";
+    private const string EVENT_PREFIX = $"{DEVICE_NAME}: ";
 
     private static Icon IconForEvent(
         BatteryStatusEventArgs args,
