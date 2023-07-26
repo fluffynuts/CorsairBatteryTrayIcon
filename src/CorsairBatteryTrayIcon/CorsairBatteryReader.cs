@@ -10,7 +10,7 @@ namespace CorsairBatteryTrayIcon;
 
 class CorsairBatteryReader
 {
-    public EventHandler<BatteryStatusEventArgs>? OnBatteryStatusUpdate { get; set; }
+    public EventHandler<BatteryStatusEventArgs> OnBatteryStatusUpdate { get; set; }
 
     private const int MIC_UP_OFFSET = 128;
     private const int VENDOR_ID = 0x1b1c;

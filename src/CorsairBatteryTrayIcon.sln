@@ -12,6 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "setup", "setup", "{20C0A72E
 		..\setup\setup.iss = ..\setup\setup.iss
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "/", "/", "{D6C4A63C-0C76-4F20-B846-7A027A3562B8}"
+	ProjectSection(SolutionItems) = preProject
+		..\package.json = ..\package.json
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x86 = Release|x86

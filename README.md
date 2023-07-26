@@ -26,10 +26,10 @@ Either build from source or download a release, copy all binaries somewhere and 
 As for building with npm, above, but `npm test`
 
 ## Current status
-[x] tray icon percentage and icons work
-[x] hard-coded to support the HS70 Pro for now
-[ ] support multiple devices via config file
-[ ] support device selection via the tray menu
-[ ] support persisting device selection
-[ ] add estimated remaining time to tooltip
-[ ] add an installer
+- [x] tray icon percentage and icons work
+- [x] hard-coded to support the HS70 Pro for now
+- [ ] support multiple devices via config file
+- [ ] support device selection via the tray menu
+- [ ] support persisting device selection
+- [ ] add estimated remaining time to tooltip
+- [ ] add an installer
