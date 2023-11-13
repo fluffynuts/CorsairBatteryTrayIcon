@@ -57,7 +57,7 @@ class CorsairBatteryReader
     }
 
     private void TraceWrite(
-        byte[]? buffer
+        byte[] buffer
     )
     {
         if (buffer is null)
@@ -86,7 +86,7 @@ class CorsairBatteryReader
     }
 
 
-    private HidDevice? GetHidDevice()
+    private HidDevice GetHidDevice()
     {
         var devices = HidDeviceManager.GetManager().SearchDevices(
             VENDOR_ID,
@@ -98,7 +98,7 @@ class CorsairBatteryReader
         ) ?? devices.FirstOrDefault();
     }
 
-    private byte[]? GetBatteryStatusViaHid()
+    private byte[] GetBatteryStatusViaHid()
     {
         var device = GetHidDevice();
         if (device is null)

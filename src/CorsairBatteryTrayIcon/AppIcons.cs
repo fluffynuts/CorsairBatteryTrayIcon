@@ -66,7 +66,7 @@ public class AppIcons
     }
 
     private bool FileNameIsNumeric(
-        string? filePath
+        string filePath
     )
     {
         if (filePath is null)
@@ -217,5 +217,5 @@ public class AppIcons
 
     private object _iconLock = new object();
     private int _lastBatteryPercent = int.MinValue;
-    private Icon? _lastBatteryIcon = null;
+    private Icon _lastBatteryIcon = null;
 }

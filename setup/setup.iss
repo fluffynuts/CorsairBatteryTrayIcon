@@ -38,7 +38,6 @@ Name: "autostart"; Description: "Start with Windows"; GroupDescription: "{cm:Add
 [Files]
 Source: "..\bin\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\CorsairBatteryTrayIcon.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\CorsairBatteryTrayIcon.pdb"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\hidapi32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\hidapi64.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\HidApiAdapter.dll"; DestDir: "{app}"; Flags: ignoreversion
